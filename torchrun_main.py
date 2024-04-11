@@ -765,18 +765,16 @@ def main(args):
         # doesn't jump around when changing from external display to laptop
         pbar = tqdm(total=args.num_training_steps - update_step, desc="Update steps", ncols=80)
 
-    # Save initial norms
-    print(model)
-
+    ##################### Added by NS ##################################################
     # Log norms of weight matrices for linear projections
-    layer6_q_norm_W0 = (model.module.model.layers[0].self_attn.q_proj.weight).norm().item()
-    print("success")
-    layer6_k_norm_W0 = torch.norm(model.model.layers[6].self_attn.k_proj).norm().item()
-    layer6_v_norm_W0 = torch.norm(model.model.layers[6].self_attn.v_proj).norm().item()
-    layer6_o_norm_W0 = torch.norm(model.model.layers[6].self_attn.o_proj).norm().item()
+    layer6_q_norm_W0 = (model.module.model.layers[6].self_attn.q_proj.weight).norm().item()
+    layer6_k_norm_W0 = (model.module.model.layers[6].self_attn.k_proj.weight).norm().item()
+    layer6_v_norm_W0 = (model.module.model.layers[6].self_attn.v_proj.weight).norm().item()
+    layer6_o_norm_W0 = (model.module.model.layers[6].self_attn.o_proj.weight).norm().item()
 
     print("################### Printing layer6_q_norm_W0", layer6_q_norm_W0) 
-
+    ####################################################################################
+    
     for batch in train_loader:
         global_step += 1
         local_step += 1
@@ -934,10 +932,10 @@ def main(args):
 
         if global_rank == 0:
             # log at every step
-            layer6_q_norm_Wi = torch.norm(model.model.layers[6].self_attn.q_proj).norm().item()
-            layer6_k_norm_Wi = torch.norm(model.model.layers[6].self_attn.k_proj).norm().item()
-            layer6_v_norm_Wi = torch.norm(model.model.layers[6].self_attn.v_proj).norm().item()
-            layer6_o_norm_Wi = torch.norm(model.model.layers[6].self_attn.o_proj).norm().item()
+            layer6_q_norm_Wi = (model.module.model.layers[6].self_attn.q_proj.weight).norm().item()
+            layer6_k_norm_Wi = (model.module.model.layers[6].self_attn.k_proj.weight).norm().item()
+            layer6_v_norm_Wi = (model.module.model.layers[6].self_attn.v_proj.weight).norm().item()
+            layer6_o_norm_Wi = (model.module.model.layers[6].self_attn.o_proj.weight).norm().item()
 
             wandb.log({
                 "loss": _loss,
