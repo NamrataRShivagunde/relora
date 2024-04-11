@@ -769,7 +769,8 @@ def main(args):
     print(model)
 
     # Log norms of weight matrices for linear projections
-    layer6_q_norm_W0 = torch.norm(model.model.layers[6].self_attn.q_proj).norm().item()
+    layer6_q_norm_W0 = torch.norm(module.model.model.layers[0].self_attn.q_proj.weight).norm().item()
+    print("success")
     layer6_k_norm_W0 = torch.norm(model.model.layers[6].self_attn.k_proj).norm().item()
     layer6_v_norm_W0 = torch.norm(model.model.layers[6].self_attn.v_proj).norm().item()
     layer6_o_norm_W0 = torch.norm(model.model.layers[6].self_attn.o_proj).norm().item()
