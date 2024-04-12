@@ -774,6 +774,14 @@ def main(args):
     layer6_v_norm_W0 = (_model.layers[6].self_attn.v_proj.weight).norm().item()
     layer6_o_norm_W0 = (_model.layers[6].self_attn.o_proj.weight).norm().item()
 
+    if args.use_peft:
+        q_Wa = _model.layers[6].self_attn.q_proj.lora_A.weight
+        q_Wb = _model.layers[6].self_attn.q_proj.lora_B.weight
+        q_WaWb_0 = q_Wa.T @ q_Wb.T
+        print(q_WaWb_0, "success")
+
+
+
     print("################### Printing layer6_q_norm_W0", layer6_q_norm_W0) 
     ####################################################################################
     
