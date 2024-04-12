@@ -769,10 +769,10 @@ def main(args):
     # Log norms of weight matrices for linear projections
     _model = model.module.wrapped_model.model if args.use_peft else model.module.model
 
-    layer6_q_norm_W0 = (_model.layers[6].self_attn.q_proj.weight).norm().item()
-    layer6_k_norm_W0 = (_model.layers[6].self_attn.k_proj.weight).norm().item()
-    layer6_v_norm_W0 = (_model.layers[6].self_attn.v_proj.weight).norm().item()
-    layer6_o_norm_W0 = (_model.layers[6].self_attn.o_proj.weight).norm().item()
+    layer6_q_norm_W0 = _model.layers[6].self_attn.q_proj.weight
+    layer6_k_norm_W0 = _model.layers[6].self_attn.k_proj.weight
+    layer6_v_norm_W0 = _model.layers[6].self_attn.v_proj.weight
+    layer6_o_norm_W0 = _model.layers[6].self_attn.o_proj.weight
 
     if args.use_peft:
         q_Wa_0 = _model.layers[6].self_attn.q_proj.lora_A.weight
@@ -791,7 +791,6 @@ def main(args):
         o_Wb_0 = _model.layers[6].self_attn.o_proj.lora_B.weight
         o_WaWb_0 = o_Wa_0.T @ o_Wb_0.T
                 
-    print("################### Printing layer6_q_norm_W0", layer6_q_norm_W0) 
     ####################################################################################
     
     for batch in train_loader:
@@ -951,10 +950,10 @@ def main(args):
 
         if global_rank == 0:
             # log at every step
-            layer6_q_norm_Wi = (_model.layers[6].self_attn.q_proj.weight).norm().item()
-            layer6_k_norm_Wi = (_model.layers[6].self_attn.k_proj.weight).norm().item()
-            layer6_v_norm_Wi = (_model.layers[6].self_attn.v_proj.weight).norm().item()
-            layer6_o_norm_Wi = (_model.layers[6].self_attn.o_proj.weight).norm().item()
+            layer6_q_norm_Wi = _model.layers[6].self_attn.q_proj.weight
+            layer6_k_norm_Wi = _model.layers[6].self_attn.k_proj.weight
+            layer6_v_norm_Wi = _model.layers[6].self_attn.v_proj.weight
+            layer6_o_norm_Wi = _model.layers[6].self_attn.o_proj.weight
 
             if args.use_peft:
                 q_Wa_i = _model.layers[6].self_attn.q_proj.lora_A.weight
@@ -992,10 +991,10 @@ def main(args):
                 "throughput_batches": batches_in_update / update_time,
                 "n_lora_restarts": n_lora_restarts,
                 "n_optimizer_resets": n_optimizer_resets,
-                "layer6_q_norm_W0-Wi": layer6_q_norm_W0 - layer6_q_norm_Wi,
-                "layer6_k_norm_W0-Wi": layer6_k_norm_W0 - layer6_k_norm_Wi,
-                "layer6_v_norm_W0-Wi": layer6_v_norm_W0 - layer6_v_norm_Wi,
-                "layer6_o_norm_W0-Wi": layer6_o_norm_W0 - layer6_o_norm_Wi,
+                "layer6_q_norm_W0-Wi": (layer6_q_norm_W0 - layer6_q_norm_Wi).norm().item(),
+                "layer6_k_norm_W0-Wi": (layer6_k_norm_W0 - layer6_k_norm_Wi).norm().item(),
+                "layer6_v_norm_W0-Wi": (layer6_v_norm_W0 - layer6_v_norm_Wi).norm().item(),
+                "layer6_o_norm_W0-Wi": (layer6_o_norm_W0 - layer6_o_norm_Wi).norm().item(),
                 },
                 step=global_step,
             )
