@@ -769,13 +769,13 @@ def main(args):
     # Log norms of weight matrices for linear projections
     
     if args.use_peft: 
-        _model = model.wrapped_model
+        _model = model.wrapped_model.model
     else: 
-        _model = model.module
-    layer6_q_norm_W0 = (_model.model.layers[6].self_attn.q_proj.weight).norm().item()
-    layer6_k_norm_W0 = (_model.model.layers[6].self_attn.k_proj.weight).norm().item()
-    layer6_v_norm_W0 = (_model.model.layers[6].self_attn.v_proj.weight).norm().item()
-    layer6_o_norm_W0 = (_model.model.layers[6].self_attn.o_proj.weight).norm().item()
+        _model = model.module.model
+    layer6_q_norm_W0 = (_model.layers[6].self_attn.q_proj.weight).norm().item()
+    layer6_k_norm_W0 = (_model.layers[6].self_attn.k_proj.weight).norm().item()
+    layer6_v_norm_W0 = (_model.layers[6].self_attn.v_proj.weight).norm().item()
+    layer6_o_norm_W0 = (_model.layers[6].self_attn.o_proj.weight).norm().item()
 
     print("################### Printing layer6_q_norm_W0", layer6_q_norm_W0) 
     ####################################################################################
