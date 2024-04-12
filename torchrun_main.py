@@ -775,13 +775,22 @@ def main(args):
     layer6_o_norm_W0 = (_model.layers[6].self_attn.o_proj.weight).norm().item()
 
     if args.use_peft:
-        q_Wa = _model.layers[6].self_attn.q_proj.lora_A.weight
-        q_Wb = _model.layers[6].self_attn.q_proj.lora_B.weight
-        q_WaWb_0 = q_Wa.T @ q_Wb.T
-        print(q_WaWb_0, "success")
+        q_Wa_0 = _model.layers[6].self_attn.q_proj.lora_A.weight
+        q_Wb_0 = _model.layers[6].self_attn.q_proj.lora_B.weight
+        q_WaWb_0 = q_Wa_0.T @ q_Wb_0.T
 
+        k_Wa_0 = _model.layers[6].self_attn.k_proj.lora_A.weight
+        k_Wb_0 = _model.layers[6].self_attn.k_proj.lora_B.weight
+        k_WaWb_0 = k_Wa_0.T @ k_Wb_0.T
 
+        v_Wa_0 = _model.layers[6].self_attn.v_proj.lora_A.weight
+        v_Wb_0 = _model.layers[6].self_attn.v_proj.lora_B.weight
+        v_WaWb_0 = v_Wa_0.T @ v_Wb_0.T
 
+        o_Wa_0 = _model.layers[6].self_attn.o_proj.lora_A.weight
+        o_Wb_0 = _model.layers[6].self_attn.o_proj.lora_B.weight
+        o_WaWb_0 = o_Wa_0.T @ o_Wb_0.T
+                
     print("################### Printing layer6_q_norm_W0", layer6_q_norm_W0) 
     ####################################################################################
     
@@ -946,6 +955,32 @@ def main(args):
             layer6_k_norm_Wi = (_model.layers[6].self_attn.k_proj.weight).norm().item()
             layer6_v_norm_Wi = (_model.layers[6].self_attn.v_proj.weight).norm().item()
             layer6_o_norm_Wi = (_model.layers[6].self_attn.o_proj.weight).norm().item()
+
+            if args.use_peft:
+                q_Wa_i = _model.layers[6].self_attn.q_proj.lora_A.weight
+                q_Wb_i = _model.layers[6].self_attn.q_proj.lora_B.weight
+                q_WaWb_i = q_Wa_i.T @ q_Wb_i.T
+
+                k_Wa_i = _model.layers[6].self_attn.k_proj.lora_A.weight
+                k_Wb_i = _model.layers[6].self_attn.k_proj.lora_B.weight
+                k_WaWb_i = k_Wa_i.T @ k_Wb_i.T
+
+                v_Wa_i = _model.layers[6].self_attn.v_proj.lora_A.weight
+                v_Wb_i = _model.layers[6].self_attn.v_proj.lora_B.weight
+                v_WaWb_i = v_Wa_i.T @ v_Wb_i.T
+
+                o_Wa_i = _model.layers[6].self_attn.o_proj.lora_A.weight
+                o_Wb_i = _model.layers[6].self_attn.o_proj.lora_B.weight
+                o_WaWb_i = o_Wa_i.T @ o_Wb_i.T
+
+                wandb.log({
+                    "q_norm_WaWb_0-WaWb_i": (q_WaWb_0 - q_WaWb_i).norm().item(),
+                    "k_norm_WaWb_0-WaWb_i": (k_WaWb_0 - k_WaWb_i).norm().item(),
+                    "v_norm_WaWb_0-WaWb_i": (v_WaWb_0 - v_WaWb_i).norm().item(),
+                    "o_norm_WaWb_0-WaWb_i": (o_WaWb_0 - o_WaWb_i).norm().item(),
+                }, step=global_step)
+
+
 
             wandb.log({
                 "loss": _loss,
