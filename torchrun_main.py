@@ -771,7 +771,7 @@ def main(args):
     if args.use_peft: 
         _model = model.model
     else: 
-        _model = model.module.model
+        _model = model.module.wrapped_model.model
     layer6_q_norm_W0 = (_model.layers[6].self_attn.q_proj.weight).norm().item()
     layer6_k_norm_W0 = (_model.layers[6].self_attn.k_proj.weight).norm().item()
     layer6_v_norm_W0 = (_model.layers[6].self_attn.v_proj.weight).norm().item()
