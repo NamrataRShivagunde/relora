@@ -767,10 +767,13 @@ def main(args):
 
     ##################### Added by NS ##################################################
     # Log norms of weight matrices for linear projections
-    layer6_q_norm_W0 = (model.module.model.layers[6].self_attn.q_proj.weight).norm().item()
-    layer6_k_norm_W0 = (model.module.model.layers[6].self_attn.k_proj.weight).norm().item()
-    layer6_v_norm_W0 = (model.module.model.layers[6].self_attn.v_proj.weight).norm().item()
-    layer6_o_norm_W0 = (model.module.model.layers[6].self_attn.o_proj.weight).norm().item()
+    _model = model.module
+    if args.use_peft:
+        _model = model.wrapped_model
+    layer6_q_norm_W0 = (_model.model.layers[6].self_attn.q_proj.weight).norm().item()
+    layer6_k_norm_W0 = (_model.model.layers[6].self_attn.k_proj.weight).norm().item()
+    layer6_v_norm_W0 = (_model.model.layers[6].self_attn.v_proj.weight).norm().item()
+    layer6_o_norm_W0 = (_model.model.layers[6].self_attn.o_proj.weight).norm().item()
 
     print("################### Printing layer6_q_norm_W0", layer6_q_norm_W0) 
     ####################################################################################
@@ -932,10 +935,10 @@ def main(args):
 
         if global_rank == 0:
             # log at every step
-            layer6_q_norm_Wi = (model.module.model.layers[6].self_attn.q_proj.weight).norm().item()
-            layer6_k_norm_Wi = (model.module.model.layers[6].self_attn.k_proj.weight).norm().item()
-            layer6_v_norm_Wi = (model.module.model.layers[6].self_attn.v_proj.weight).norm().item()
-            layer6_o_norm_Wi = (model.module.model.layers[6].self_attn.o_proj.weight).norm().item()
+            layer6_q_norm_Wi = (_model.model.layers[6].self_attn.q_proj.weight).norm().item()
+            layer6_k_norm_Wi = (_model.model.layers[6].self_attn.k_proj.weight).norm().item()
+            layer6_v_norm_Wi = (_model.model.layers[6].self_attn.v_proj.weight).norm().item()
+            layer6_o_norm_Wi = (_model.model.layers[6].self_attn.o_proj.weight).norm().item()
 
             wandb.log({
                 "loss": _loss,
