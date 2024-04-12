@@ -767,9 +767,11 @@ def main(args):
 
     ##################### Added by NS ##################################################
     # Log norms of weight matrices for linear projections
-    _model = model.module
-    if args.use_peft:
+    
+    if args.use_peft: 
         _model = model.wrapped_model
+    else: 
+        _model = model.module
     layer6_q_norm_W0 = (_model.model.layers[6].self_attn.q_proj.weight).norm().item()
     layer6_k_norm_W0 = (_model.model.layers[6].self_attn.k_proj.weight).norm().item()
     layer6_v_norm_W0 = (_model.model.layers[6].self_attn.v_proj.weight).norm().item()
