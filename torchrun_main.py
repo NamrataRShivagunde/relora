@@ -774,8 +774,6 @@ def main(args):
     layer6_o_W0 = _MODULE.layers[6].self_attn.o_proj.weight.clone()
     layer6_k_W0 = _MODULE.layers[6].self_attn.k_proj.weight.clone()
 
-    print("norms are", layer6_q_W0.norm().item(), layer6_k_W0.norm().item(), layer6_v_W0.norm().item(), layer6_o_W0.norm().item())
-
     if args.use_peft:
         q_Wa_0 = _MODULE.layers[6].self_attn.q_proj.lora_A.weight.clone()
         q_Wb_0 = _MODULE.layers[6].self_attn.q_proj.lora_B.weight.clone()
