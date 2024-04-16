@@ -774,7 +774,7 @@ def main(args):
     layer6_o_W0 = _MODULE.layers[6].self_attn.o_proj.weight
     layer6_k_W0 = _MODULE.layers[6].self_attn.k_proj.weight
 
-    print("norms are", layer6_q_W0.norm.item(), layer6_k_W0.norm.item(), layer6_v_W0.norm.item(), layer6_o_W0.norm.item())
+    print("norms are", layer6_q_W0.norm().item(), layer6_k_W0.norm().item(), layer6_v_W0.norm().item(), layer6_o_W0.norm().item())
 
     if args.use_peft:
         q_Wa_0 = _MODULE.layers[6].self_attn.q_proj.lora_A.weight
@@ -959,7 +959,7 @@ def main(args):
             layer6_v_Wi = _MODULE.layers[6].self_attn.v_proj.weight
             layer6_o_Wi = _MODULE.layers[6].self_attn.o_proj.weight
 
-            print("norms are", layer6_q_Wi.norm.item(), layer6_k_Wi.norm.item(), layer6_v_Wi.norm.item(), layer6_o_Wi.norm.item())
+            print("norms are", layer6_q_Wi.norm().item(), layer6_k_Wi.norm().item(), layer6_v_Wi().norm.item(), layer6_o_Wi().norm.item())
 
             if args.use_peft:
                 q_Wa_i = _MODULE.layers[6].self_attn.q_proj.lora_A.weight
