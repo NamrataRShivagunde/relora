@@ -957,8 +957,6 @@ def main(args):
             layer6_v_Wi = _MODULE.layers[6].self_attn.v_proj.weight
             layer6_o_Wi = _MODULE.layers[6].self_attn.o_proj.weight
 
-            print("norms are", layer6_q_Wi.norm().item(), layer6_k_Wi.norm().item(), layer6_v_Wi.norm().item(), layer6_o_Wi.norm().item())
-
             if args.use_peft:
                 q_Wa_i = _MODULE.layers[6].self_attn.q_proj.lora_A.weight
                 q_Wb_i = _MODULE.layers[6].self_attn.q_proj.lora_B.weight
@@ -984,9 +982,9 @@ def main(args):
                 }, step=global_step)
 
 
-            print("Before norms are", layer6_q_W0.norm().item(), layer6_k_W0.norm().item(), layer6_v_W0.norm().item(), layer6_o_W0.norm().item())
-            print("After norms are", layer6_q_Wi.norm().item(), layer6_k_Wi.norm().item(), layer6_v_Wi.norm().item(), layer6_o_Wi.norm().item())
-            print("Diff are",(layer6_q_W0 - layer6_q_Wi).norm().item(), (layer6_k_W0 - layer6_k_Wi).norm().item(), (layer6_v_W0 - layer6_v_Wi).norm().item(), (layer6_o_W0 - layer6_o_Wi).norm().item())
+            print("Before norms are", q_WaWb_0.norm().item(), k_WaWb_0.norm().item(), v_WaWb_0.norm().item(), o_WaWb_0.norm().item())
+            print("After norms are", q_WaWb_i.norm().item(), k_WaWb_i.norm().item(), v_WaWb_i.norm().item(), o_WaWb_i.norm().item())
+            print("Diff are",(q_WaWb_0 - q_WaWb_i).norm().item(), (k_WaWb_0 - k_WaWb_i).norm().item(), (v_WaWb_0 - v_WaWb_i).norm().item(), (o_WaWb_0 - o_WaWb_i).norm().item())
 
             wandb.log({
                 "loss": _loss,
