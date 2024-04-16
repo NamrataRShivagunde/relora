@@ -950,6 +950,8 @@ def main(args):
 
         if global_rank == 0:
             # log at every step
+             # Log norms of weight matrices for linear projections
+            _MODULE = model.module.wrapped_model.model if args.use_peft else model.module.model
             layer6_q_Wi = _MODULE.layers[6].self_attn.q_proj.weight
             layer6_k_Wi = _MODULE.layers[6].self_attn.k_proj.weight
             layer6_v_Wi = _MODULE.layers[6].self_attn.v_proj.weight
