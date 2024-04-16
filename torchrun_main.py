@@ -985,6 +985,11 @@ def main(args):
                     "o_norm_WaWb_0-WaWb_i": (o_WaWb_0 - o_WaWb_i).norm().item(),
                 }, step=global_step)
 
+
+            print("Before norms are", layer6_q_W0.norm().item(), layer6_k_W0.norm().item(), layer6_v_W0.norm().item(), layer6_o_W0.norm().item())
+            print("After norms are", layer6_q_Wi.norm().item(), layer6_k_Wi.norm().item(), layer6_v_Wi.norm().item(), layer6_o_Wi.norm().item())
+            print("Diff are",(layer6_q_W0 - layer6_q_Wi).norm().item(), (layer6_k_W0 - layer6_k_Wi).norm().item(), (layer6_v_W0 - layer6_v_Wi).norm().item(), (layer6_o_W0 - layer6_o_Wi).norm().item())
+
             wandb.log({
                 "loss": _loss,
                 "lr": lr,
