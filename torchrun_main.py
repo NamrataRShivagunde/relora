@@ -815,6 +815,11 @@ def main(args):
         batch = {k: v.to(device) for k, v in batch.items()}
         tokens_seen += batch["input_ids"].numel() * world_size
 
+        _MODULE = model.module.wrapped_model.model if args.use_peft else model.module.model
+
+        print("Gradients enabled for weight tensor:", _MODULE.layers[6].self_attn.q_proj.lora_A.weight.lora_A.weight.requires_grad)
+        print("Gradients enabled for weight tensor:", _MODULE.layers[6].self_attn.q_proj.lora_B.weight.lora_B.weight.requires_grad)
+
         loss = model(**batch, labels=batch["input_ids"]).loss
 
         loss_info[0] += loss.detach()

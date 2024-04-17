@@ -133,9 +133,6 @@ class ReLoRaModel(torch.nn.Module):
             module_suffix = module_name.split(".")[-1]
             setattr(parent, module_suffix, new_module)
 
-            print("Gradients enabled for weight tensor:", new_module.lora_A.weight.requires_grad)
-            print("Gradients enabled for weight tensor:", new_module.lora_B.weight.requires_grad)
-
         torch.cuda.empty_cache()
 
     def _get_parent(self, module_name):
