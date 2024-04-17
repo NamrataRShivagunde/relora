@@ -991,6 +991,7 @@ def main(args):
                    lora_A = _MODULE.layers[i].self_attn.q_proj.lora_A.weight
                    lora_B = _MODULE.layers[i].self_attn.q_proj.lora_B.weight
                    ln = _MODULE.layers[i].post_attention_layernorm.weight
+                   ln_pre = _MODULE.layers[i].input_layernorm.weight
 
                    # Print the gradient norm
                    print(f"Layer {i}_q_loraA_grad_norm: {lora_A.norm().item()}")
@@ -1002,6 +1003,7 @@ def main(args):
                    print(f"Layer {i}_mlp_loraA_down_grad_norm: {mlpA_down.norm().item()}")
                    print(f"Layer {i}_mlp__loraA_down_grad_norm: {mlpB_down.norm().item()}")
                    print(f"Layer {i}_LN: {ln.norm().item()}")
+                   print(f"Layer {i}_input_LN: {ln_pre.norm().item()}")
                                 
 
                 k_Wa_i = _MODULE.layers[6].self_attn.k_proj.lora_A.weight
