@@ -979,12 +979,17 @@ def main(args):
                  # Iterate over each layer
                 for i in range(8):
                     # Access the q_proj weight tensor of the layer
+                   
+                   mlpA = _MODULE.layers[i].mlp.gate_proj.lora_A.weight
+                   mlpB = _MODULE.layers[i].mlp.gate_proj.lora_B.weight
                    lora_A = _MODULE.layers[i].self_attn.q_proj.lora_A.weight
                    lora_B = _MODULE.layers[i].self_attn.q_proj.lora_B.weight
 
                    # Print the gradient norm
                    print(f"Layer {i}_q_loraA_grad_norm: {lora_A.norm().item()}")
                    print(f"Layer {i}_q_loraA_grad_norm: {lora_B.norm().item()}")
+                   print(f"Layer {i}_mlp_loraA_grad_norm: {mlpA.norm().item()}")
+                   print(f"Layer {i}_mlp__loraA_grad_norm: {mlpB.norm().item()}")
                                 
 
                 k_Wa_i = _MODULE.layers[6].self_attn.k_proj.lora_A.weight
