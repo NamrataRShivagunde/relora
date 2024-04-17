@@ -777,7 +777,7 @@ def main(args):
     for name, param in _MODULE.named_parameters():
         # Print the parameter's name and whether it requires gradients
         print(f"Parameter: {name}, Requires Grad: {param.requires_grad}")
-    break
+        
 
     layer6_q_W0 = _MODULE.layers[6].self_attn.q_proj.weight.clone()
     layer6_v_W0 = _MODULE.layers[6].self_attn.v_proj.weight.clone()
