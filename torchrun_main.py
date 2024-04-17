@@ -804,7 +804,7 @@ def main(args):
         o_WaWb_0 = o_Wa_0.T @ o_Wb_0.T
                 
     ####################################################################################
-    model.train()
+    model.train() # added by NS
     for batch in train_loader:
         global_step += 1
         local_step += 1
@@ -970,6 +970,7 @@ def main(args):
             layer6_o_Wi = _MODULE.layers[6].self_attn.o_proj.weight
 
             print("layer6_q_Wi grad", layer6_q_Wi.requires_grad)
+            print("embedding", (_MODULE.embed_tokens.weight).norm().item())
 
             if args.use_peft:
                 q_Wa_i = _MODULE.layers[6].self_attn.q_proj.lora_A.weight
