@@ -817,9 +817,6 @@ def main(args):
 
         _MODULE = model.module.wrapped_model.model if args.use_peft else model.module.model
 
-        print("Gradients enabled for weight tensor:", _MODULE.layers[6].self_attn.q_proj.lora_A.weight.lora_A.weight.requires_grad)
-        print("Gradients enabled for weight tensor:", _MODULE.layers[6].self_attn.q_proj.lora_B.weight.lora_B.weight.requires_grad)
-
         loss = model(**batch, labels=batch["input_ids"]).loss
 
         loss_info[0] += loss.detach()
@@ -966,10 +963,15 @@ def main(args):
             layer6_v_Wi = _MODULE.layers[6].self_attn.v_proj.weight
             layer6_o_Wi = _MODULE.layers[6].self_attn.o_proj.weight
 
+            print("layer6_q_Wi grad", layer6_q_Wi.requires_grad)
+
             if args.use_peft:
                 q_Wa_i = _MODULE.layers[6].self_attn.q_proj.lora_A.weight
                 q_Wb_i = _MODULE.layers[6].self_attn.q_proj.lora_B.weight
                 q_WaWb_i = q_Wa_i.T @ q_Wb_i.T
+
+                print("layer6_q_Wi A grad", q_Wa_i.requires_grad)
+                print("layer6_q_Wi B grad", q_Wb_i.requires_grad)
 
                 k_Wa_i = _MODULE.layers[6].self_attn.k_proj.lora_A.weight
                 k_Wb_i = _MODULE.layers[6].self_attn.k_proj.lora_B.weight
