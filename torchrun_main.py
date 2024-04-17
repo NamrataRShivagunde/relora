@@ -802,7 +802,7 @@ def main(args):
         o_WaWb_0 = o_Wa_0.T @ o_Wb_0.T
                 
     ####################################################################################
-    
+    model.train()
     for batch in train_loader:
         global_step += 1
         local_step += 1
