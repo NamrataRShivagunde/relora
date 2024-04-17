@@ -50,6 +50,8 @@ from peft_pretraining.megatron_dataset import data_utils as megatron_data_utils
 
 transformers.logging.set_verbosity_error()
 
+from safetensors.torch import load_model, save_model
+
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
@@ -507,7 +509,8 @@ def main(args):
         logger.info(f"Loading a warmed-up model from {args.warmed_up_model}")
         #checkpoint_path = os.path.join(args.warmed_up_model, "pytorch_model.bin")  # !! won't work with sharded models
         checkpoint_path = os.path.join(args.warmed_up_model, "model.safetensors")  # !! won't work with sharded models # added by NS
-        model.load_state_dict(torch.load(checkpoint_path, map_location="cpu"), strict=True)
+        # model.load_state_dict(torch.load(checkpoint_path, map_location="cpu"), strict=True)
+        load_model(checkpoint_path) # https://medium.com/@mandalsouvik/safetensors-a-simple-and-safe-way-to-store-and-distribute-tensors-d9ba1931ba04 
         logger.info(f"Model successfully loaded (strict=True policy)")
 
         if os.path.exists(os.path.join(args.warmed_up_model, "training_state.json")):
