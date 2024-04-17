@@ -773,6 +773,12 @@ def main(args):
     # Log norms of weight matrices for linear projections
     _MODULE = model.module.wrapped_model.model if args.use_peft else model.module.model
 
+    # Iterate over each parameter in the model
+    for name, param in _MODULE.named_parameters():
+        # Print the parameter's name and whether it requires gradients
+        print(f"Parameter: {name}, Requires Grad: {param.requires_grad}")
+    break
+
     layer6_q_W0 = _MODULE.layers[6].self_attn.q_proj.weight.clone()
     layer6_v_W0 = _MODULE.layers[6].self_attn.v_proj.weight.clone()
     layer6_o_W0 = _MODULE.layers[6].self_attn.o_proj.weight.clone()
