@@ -773,10 +773,10 @@ def main(args):
     # Log norms of weight matrices for linear projections
     _MODULE = model.module.wrapped_model.model if args.use_peft else model.module.model
 
-    # Iterate over each parameter in the model
-    for name, param in _MODULE.named_parameters():
-        # Print the parameter's name and whether it requires gradients
-        print(f"Parameter: {name}, Requires Grad: {param.requires_grad}")
+    # # Iterate over each parameter in the model
+    # for name, param in _MODULE.named_parameters():
+    #     # Print the parameter's name and whether it requires gradients
+    #     print(f"Parameter: {name}, Requires Grad: {param.requires_grad}")
         
 
     layer6_q_W0 = _MODULE.layers[6].self_attn.q_proj.weight.clone()
@@ -984,12 +984,14 @@ def main(args):
                    mlpB = _MODULE.layers[i].mlp.gate_proj.lora_B.weight
                    lora_A = _MODULE.layers[i].self_attn.q_proj.lora_A.weight
                    lora_B = _MODULE.layers[i].self_attn.q_proj.lora_B.weight
+                   ln = _MODULE.layers[i].post_attention_layernorm.weight
 
                    # Print the gradient norm
                    print(f"Layer {i}_q_loraA_grad_norm: {lora_A.norm().item()}")
                    print(f"Layer {i}_q_loraA_grad_norm: {lora_B.norm().item()}")
                    print(f"Layer {i}_mlp_loraA_grad_norm: {mlpA.norm().item()}")
                    print(f"Layer {i}_mlp__loraA_grad_norm: {mlpB.norm().item()}")
+                   print(f"Layer {i}_LN: {ln.norm().item()}")
                                 
 
                 k_Wa_i = _MODULE.layers[6].self_attn.k_proj.lora_A.weight
