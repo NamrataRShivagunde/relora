@@ -256,16 +256,12 @@ class ReLoRaLinear(nn.Module):
             else:
                 self.scaling = self.lora_alpha / self.r
 
-            print("Gradients enabled for weight tensor:", self.lora_A.weight.requires_grad)
-            print("Gradients enabled for weight tensor:", self.lora_B.weight.requires_grad)
-
             # Freezing the pre-trained weight matrix
             if not self.lora_only:
                 self.weight.requires_grad = False
 
-                # added by NS
-                self.lora_A.weight.requires_grad = True
-                self.lora_B.weight.requires_grad = True
+            print("Gradients enabled for weight tensor:", self.lora_A.weight.requires_grad)
+            print("Gradients enabled for weight tensor:", self.lora_B.weight.requires_grad)
             
 
     
