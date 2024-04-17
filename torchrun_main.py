@@ -971,10 +971,10 @@ def main(args):
                 q_WaWb_i = q_Wa_i.T @ q_Wb_i.T
 
                  # Iterate over each layer
-                for i, layer in enumerate(_MODULE.layers):
+                for i, in range(8):
                     # Access the q_proj weight tensor of the layer
-                   lora_A = layer.self_attn.q_proj.lora_A.weight
-                   lora_B = layer.self_attn.q_proj.lora_B.weight
+                   lora_A = _MODULE.layers[i].self_attn.q_proj.lora_A.weight
+                   lora_B = _MODULE.layers[i].self_attn.q_proj.lora_B.weight
 
                    # Print the gradient norm
                    print(f"Layer {i}_q_loraA_grad_norm: {lora_A.norm().item()}")
