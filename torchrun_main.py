@@ -971,7 +971,7 @@ def main(args):
                 q_WaWb_i = q_Wa_i.T @ q_Wb_i.T
 
                  # Iterate over each layer
-                for i, in range(8):
+                for i in range(8):
                     # Access the q_proj weight tensor of the layer
                    lora_A = _MODULE.layers[i].self_attn.q_proj.lora_A.weight
                    lora_B = _MODULE.layers[i].self_attn.q_proj.lora_B.weight
