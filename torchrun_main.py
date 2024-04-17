@@ -505,7 +505,8 @@ def main(args):
     if args.warmed_up_model is not None:
         logger.info("*" * 40)
         logger.info(f"Loading a warmed-up model from {args.warmed_up_model}")
-        checkpoint_path = os.path.join(args.warmed_up_model, "pytorch_model.bin")  # !! won't work with sharded models
+        #checkpoint_path = os.path.join(args.warmed_up_model, "pytorch_model.bin")  # !! won't work with sharded models
+        checkpoint_path = os.path.join(args.warmed_up_model, "model.safetensors")  # !! won't work with sharded models # added by NS
         model.load_state_dict(torch.load(checkpoint_path, map_location="cpu"), strict=True)
         logger.info(f"Model successfully loaded (strict=True policy)")
 

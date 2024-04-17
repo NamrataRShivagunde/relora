@@ -117,11 +117,11 @@ class ReLoRaModel(torch.nn.Module):
                 bias_data=bias_data,
                 bnb_4bit_use_double_quant=use_double_quant,
             )
-            # if self.keep_original_weights:
-            #     # make lora'ed network to be exacty the same as the original network at initialization
-            #     nn.init.zeros_(new_module.lora_A.weight)
-            #     assert new_module.lora_A.bias is None
-            #     assert new_module.lora_B.bias is None
+            if self.keep_original_weights:
+                # make lora'ed network to be exacty the same as the original network at initialization
+                nn.init.zeros_(new_module.lora_A.weight)
+                assert new_module.lora_A.bias is None
+                assert new_module.lora_B.bias is None
 
             if self.lora_only:
                 assert not self.keep_original_weights
