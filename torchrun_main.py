@@ -146,6 +146,7 @@ def parse_args(args=None):
 def evaluate_model(model: nn.Module, eval_dataloader, device, target_eval_tokens=10_000_000):
     _time = time.time()
     was_training = model.train
+    print("WAS training", was_training)
     model.eval()
 
     ddp_loss_info = torch.zeros(3).to(device)  # [loss, n_batches, n_tokens]
@@ -188,6 +189,7 @@ def evaluate_model(model: nn.Module, eval_dataloader, device, target_eval_tokens
     logger.info(f"Evaluation took {time.time() - _time:.2f} seconds")
 
     if was_training: model.train()
+    print("WAS training", was_training)
     return eval_loss, evaluated_on_tokens
 
 
@@ -820,8 +822,6 @@ def main(args):
 
         batch = {k: v.to(device) for k, v in batch.items()}
         tokens_seen += batch["input_ids"].numel() * world_size
-
-        _MODULE = model.module.wrapped_model.model if args.use_peft else model.module.model
 
         loss = model(**batch, labels=batch["input_ids"]).loss
 
