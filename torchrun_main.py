@@ -510,7 +510,7 @@ def main(args):
         #checkpoint_path = os.path.join(args.warmed_up_model, "pytorch_model.bin")  # !! won't work with sharded models
         checkpoint_path = os.path.join(args.warmed_up_model, "model.safetensors")  # !! won't work with sharded models # added by NS
         # model.load_state_dict(torch.load(checkpoint_path, map_location="cpu"), strict=True)
-        load_model(model, checkpoint_path) # https://medium.com/@mandalsouvik/safetensors-a-simple-and-safe-way-to-store-and-distribute-tensors-d9ba1931ba04 
+        load_model(model, checkpoint_path)  # changed this line as model was saved in safetensor format and not bin format
         logger.info(f"Model successfully loaded (strict=True policy)")
 
         if os.path.exists(os.path.join(args.warmed_up_model, "training_state.json")):
