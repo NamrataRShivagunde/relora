@@ -977,8 +977,8 @@ def main(args):
                    lora_B = layer.self_attn.q_proj.lora_B.weight
 
                    # Print the gradient norm
-                   print(f"Layer {i}_q_loraA_grad_norm: {lora_A}")
-                   print(f"Layer {i}_q_loraA_grad_norm: {lora_B}")
+                   print(f"Layer {i}_q_loraA_grad_norm: {lora_A.norm().item()}")
+                   print(f"Layer {i}_q_loraA_grad_norm: {lora_B.norm().item()}")
                                 
 
                 k_Wa_i = _MODULE.layers[6].self_attn.k_proj.lora_A.weight
