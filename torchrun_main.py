@@ -984,6 +984,10 @@ def main(args):
                    
                    mlpA = _MODULE.layers[i].mlp.gate_proj.lora_A.weight
                    mlpB = _MODULE.layers[i].mlp.gate_proj.lora_B.weight
+                   mlpA_up = _MODULE.layers[i].mlp.up_proj.lora_A.weight
+                   mlpB_up = _MODULE.layers[i].mlp.up_proj.lora_B.weight
+                   mlpA_down = _MODULE.layers[i].mlp.down_proj.lora_A.weight
+                   mlpB_down = _MODULE.layers[i].mlp.down_proj.lora_B.weight
                    lora_A = _MODULE.layers[i].self_attn.q_proj.lora_A.weight
                    lora_B = _MODULE.layers[i].self_attn.q_proj.lora_B.weight
                    ln = _MODULE.layers[i].post_attention_layernorm.weight
@@ -992,7 +996,11 @@ def main(args):
                    print(f"Layer {i}_q_loraA_grad_norm: {lora_A.norm().item()}")
                    print(f"Layer {i}_q_loraA_grad_norm: {lora_B.norm().item()}")
                    print(f"Layer {i}_mlp_loraA_grad_norm: {mlpA.norm().item()}")
-                   print(f"Layer {i}_mlp__loraA_grad_norm: {mlpB.norm().item()}")
+                   print(f"Layer {i}_mlp__loraB_grad_norm: {mlpB.norm().item()}")
+                   print(f"Layer {i}_mlp_loraA_up_grad_norm: {mlpA_up.norm().item()}")
+                   print(f"Layer {i}_mlp__loraB_up_grad_norm: {mlpB_up.norm().item()}")
+                   print(f"Layer {i}_mlp_loraA_down_grad_norm: {mlpA_down.norm().item()}")
+                   print(f"Layer {i}_mlp__loraA_down_grad_norm: {mlpB_down.norm().item()}")
                    print(f"Layer {i}_LN: {ln.norm().item()}")
                                 
 
