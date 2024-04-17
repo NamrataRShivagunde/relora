@@ -970,6 +970,7 @@ def main(args):
                 q_Wb_i = _MODULE.layers[6].self_attn.q_proj.lora_B.weight
                 q_WaWb_i = q_Wa_i.T @ q_Wb_i.T
 
+                print("layer6_q_Wi grad", layer6_q_Wi.requires_grad)
                 print("layer6_q_Wi A grad", q_Wa_i.requires_grad)
                 print("layer6_q_Wi B grad", q_Wb_i.requires_grad)
 
