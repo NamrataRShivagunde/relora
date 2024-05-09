@@ -961,6 +961,8 @@ def main(args):
         batches_in_update = args.gradient_accumulation * world_size
 
         if global_rank == 0:
+
+            ############################ added by NS ################################################
             # log at every step
              # Log norms of weight matrices for linear projections
             _MODULE = model.module.wrapped_model.model if args.use_peft else model.module.model
@@ -1029,6 +1031,8 @@ def main(args):
             print("Before norms are", q_WaWb_0.norm().item(), k_WaWb_0.norm().item(), v_WaWb_0.norm().item(), o_WaWb_0.norm().item())
             print("After norms are", q_WaWb_i.norm().item(), k_WaWb_i.norm().item(), v_WaWb_i.norm().item(), o_WaWb_i.norm().item())
             print("Diff are",(q_WaWb_0 - q_WaWb_i).norm().item(), (k_WaWb_0 - k_WaWb_i).norm().item(), (v_WaWb_0 - v_WaWb_i).norm().item(), (o_WaWb_0 - o_WaWb_i).norm().item())
+            
+            ################################################################################################################
 
             wandb.log({
                 "loss": _loss,
